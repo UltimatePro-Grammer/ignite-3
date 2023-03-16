@@ -19,7 +19,6 @@ package org.apache.ignite.internal.catalog;
 
 import java.util.Collection;
 import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -30,20 +29,44 @@ import org.apache.ignite.internal.catalog.descriptors.SchemaDescriptor;
 import org.apache.ignite.internal.catalog.descriptors.TableDescriptor;
 import org.apache.ignite.internal.catalog.events.CatalogEvent;
 import org.apache.ignite.internal.catalog.events.CatalogEventParameters;
-import org.apache.ignite.internal.configuration.DynamicConfigurationChanger;
 import org.apache.ignite.internal.manager.Producer;
+import org.apache.ignite.internal.metastorage.MetaStorageManager;
+import org.apache.ignite.internal.metastorage.WatchEvent;
+import org.apache.ignite.internal.metastorage.WatchListener;
+import org.apache.ignite.lang.ByteArray;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * TODO: IGNITE-18535 Fix javadoc
+ * Catalog service implementation.
  */
 public class CatalogServiceImpl extends Producer<CatalogEvent, CatalogEventParameters> implements CatalogService {
-
     /** Versioned catalog descriptors. */
-    private final ConcurrentMap<Integer, CatalogDescriptor> catalogByVer = new ConcurrentHashMap<>(); //TODO: IGNITE-18535 Use IntMap instead.
+    //TODO: IGNITE-18535 Use copy-on-write approach with IntMap instead??
+    private final ConcurrentMap<Integer, CatalogDescriptor> catalogByVer = new ConcurrentHashMap<>();
 
     /** Versioned catalog descriptors sorted in chronological order. */
-    private final ConcurrentNavigableMap<Long, CatalogDescriptor> catalogByTs = new ConcurrentSkipListMap<>(); //TODO: IGNITE-18535 Use LongMap instead.
+    //TODO: IGNITE-18535 Use copy-on-write approach with Map instead??
+    private final ConcurrentNavigableMap<Long, CatalogDescriptor> catalogByTs = new ConcurrentSkipListMap<>();
+
+    private final MetaStorageManager metaStorageMgr;
+
+    private final WatchListener catalogVersionsListener;
+
+    /**
+     * Constructor.
+     */
+    public CatalogServiceImpl(MetaStorageManager metaStorageMgr) {
+        this.metaStorageMgr = metaStorageMgr;
+        catalogVersionsListener = new CatalogEventListener();
+    }
+
+    public void start() {
+        metaStorageMgr.registerPrefixWatch(ByteArray.fromString("catalog-"), catalogVersionsListener);
+    }
+
+    public void stop() {
+        metaStorageMgr.unregisterWatch(catalogVersionsListener);
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -81,12 +104,6 @@ public class CatalogServiceImpl extends Producer<CatalogEvent, CatalogEventParam
         return catalogAt(timestamp).schema(CatalogDescriptor.DEFAULT_SCHEMA_NAME);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public CompletableFuture<SchemaDescriptor> updateSchema(DynamicConfigurationChanger changer) {
-        return null;
-    }
-
     private CatalogDescriptor catalog(int version) {
         return catalogByVer.get(version);
     }
@@ -99,5 +116,17 @@ public class CatalogServiceImpl extends Producer<CatalogEvent, CatalogEventParam
         }
 
         return entry.getValue();
+    }
+
+    private static class CatalogEventListener implements WatchListener {
+        @Override
+        public void onUpdate(WatchEvent event) {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
     }
 }

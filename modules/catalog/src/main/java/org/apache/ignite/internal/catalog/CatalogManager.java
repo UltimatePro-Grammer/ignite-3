@@ -15,20 +15,19 @@
  * limitations under the License.
  */
 
-apply from: "$rootDir/buildscripts/java-core.gradle"
-apply from: "$rootDir/buildscripts/publishing.gradle"
-apply from: "$rootDir/buildscripts/java-junit5.gradle"
+package org.apache.ignite.internal.catalog;
 
-dependencies {
-    annotationProcessor project(':ignite-configuration-annotation-processor')
-    annotationProcessor libs.auto.service
-    implementation libs.jetbrains.annotations
+import java.util.concurrent.CompletableFuture;
+import org.apache.ignite.internal.catalog.commands.CreateTableParams;
 
-    implementation project(':ignite-api')
-    implementation project(':ignite-core')
-    implementation project(':ignite-configuration')
-    implementation project(':ignite-metastorage-api')
-    implementation libs.jetbrains.annotations
+/**
+ * Catalog manager provides schema manipulation methods is responsible for managing distributed operations.
+ */
+public interface CatalogManager {
+    //TODO: IGNITE-18535 Remove when all versioned schema stuff will be moved to Catalog.
+    @Deprecated(forRemoval = true)
+    boolean USE_CATALOG = Boolean.getBoolean("IGNITE_USE_CATALOG");
+
+    //TODO: IGNITE-18535 enrich with schema manipulation methods.
+    CompletableFuture<?> createTable(CreateTableParams command);
 }
-
-description = "ignite-catalog"

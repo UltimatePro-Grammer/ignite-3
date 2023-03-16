@@ -46,6 +46,15 @@ public class TableDescriptor extends ObjectDescriptor {
     @IgniteToStringExclude
     private transient Map<String, TableColumnDescriptor> columnsMap;
 
+    /**
+     * Constructor.
+     *
+     * @param id Table id.
+     * @param name Table name.
+     * @param columns Table column descriptors.
+     * @param pkCols Primary key column names.
+     * @param colocationCols Colocation column names.
+     */
     public TableDescriptor(int id, String name, TableColumnDescriptor[] columns, String[] pkCols, @Nullable String[] colocationCols) {
         super(id, Type.TABLE, name);
 

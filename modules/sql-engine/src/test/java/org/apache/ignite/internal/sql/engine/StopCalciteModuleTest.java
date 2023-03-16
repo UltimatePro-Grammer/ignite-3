@@ -46,6 +46,7 @@ import java.util.concurrent.Flow;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import org.apache.ignite.configuration.ConfigurationValue;
+import org.apache.ignite.internal.catalog.CatalogManager;
 import org.apache.ignite.internal.distributionzones.DistributionZoneManager;
 import org.apache.ignite.internal.hlc.HybridClock;
 import org.apache.ignite.internal.index.IndexManager;
@@ -133,6 +134,9 @@ public class StopCalciteModuleTest {
 
     @Mock
     private HybridClock clock;
+
+    @Mock
+    private CatalogManager catalogManager;
 
     private SchemaRegistry schemaReg;
 
@@ -224,7 +228,8 @@ public class StopCalciteModuleTest {
                 distributionZoneManager,
                 Map::of,
                 mock(ReplicaService.class),
-                clock
+                clock,
+                catalogManager
         );
 
         when(tbl.tableId()).thenReturn(UUID.randomUUID());

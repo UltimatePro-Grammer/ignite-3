@@ -37,6 +37,13 @@ public class TableColumnDescriptor implements Serializable {
     private int scale;
     private String defaultValueExpression;
 
+    /**
+     * Constructor.
+     *
+     * @param name Column name.
+     * @param type Column type.
+     * @param nullable Nullability flag.
+     */
     public TableColumnDescriptor(String name, ColumnType type, boolean nullable) {
         this.name = Objects.requireNonNull(name, "name");
         this.type = Objects.requireNonNull(type);
@@ -65,6 +72,10 @@ public class TableColumnDescriptor implements Serializable {
 
     public int length() {
         return length;
+    }
+
+    public String defaultValueExpression() {
+        return defaultValueExpression;
     }
 
     /** {@inheritDoc} */

@@ -42,6 +42,15 @@ public class SchemaDescriptor extends ObjectDescriptor {
     @IgniteToStringExclude
     private transient Map<String, IndexDescriptor> indexesMap; //TODO: IGNITE-18535 Drop if not used.
 
+    /**
+     * Constructor.
+     *
+     * @param id Schema id.
+     * @param name Schema name.
+     * @param version Catalog version.
+     * @param tables Tables description.
+     * @param indexes Indexes description.
+     */
     public SchemaDescriptor(int id, String name, int version, TableDescriptor[] tables, IndexDescriptor[] indexes) {
         super(id, Type.SCHEMA, name);
         this.version = version;
