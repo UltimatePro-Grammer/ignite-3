@@ -28,10 +28,10 @@ public class ColumnParams {
 
     private final boolean nullable;
 
-    private final DefaultValueParams defaultValueDefinition;
+    private final DefaultValue defaultValueDefinition;
 
     /** Creates a column definition. */
-    public ColumnParams(String name, ColumnType type, DefaultValueParams defaultValueDefinition, boolean nullable) {
+    public ColumnParams(String name, ColumnType type, DefaultValue defaultValueDefinition, boolean nullable) {
         this.name = Objects.requireNonNull(name, "name");
         this.type = Objects.requireNonNull(type, "type");
         this.defaultValueDefinition = Objects.requireNonNull(defaultValueDefinition, "defaultValueDefinition");
@@ -59,7 +59,7 @@ public class ColumnParams {
      * @return Default value definition.
      */
     @SuppressWarnings("unchecked")
-    public <T extends DefaultValueParams> T defaultValueDefinition() {
+    public <T extends DefaultValue> T defaultValueDefinition() {
         return (T) defaultValueDefinition;
     }
 

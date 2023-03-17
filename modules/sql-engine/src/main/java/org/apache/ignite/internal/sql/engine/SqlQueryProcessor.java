@@ -44,6 +44,7 @@ import org.apache.calcite.sql.SqlNodeList;
 import org.apache.calcite.tools.Frameworks;
 import org.apache.calcite.util.Pair;
 import org.apache.ignite.internal.catalog.CatalogManager;
+import org.apache.ignite.internal.catalog.CatalogService;
 import org.apache.ignite.internal.distributionzones.DistributionZoneManager;
 import org.apache.ignite.internal.hlc.HybridClock;
 import org.apache.ignite.internal.index.IndexManager;
@@ -227,7 +228,7 @@ public class SqlQueryProcessor implements QueryProcessor {
 
         this.prepareSvc = prepareSvc;
 
-        var ddlCommandHandler = CatalogManager.USE_CATALOG
+        var ddlCommandHandler = CatalogService.USE_CATALOG
                 ? new DdlCommandHandlerWrapper(distributionZoneManager, tableManager, indexManager, dataStorageManager, catalogManager)
                 : new DdlCommandHandler(distributionZoneManager, tableManager, indexManager, dataStorageManager);
 

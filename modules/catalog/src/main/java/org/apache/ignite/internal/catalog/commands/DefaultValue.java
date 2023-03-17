@@ -24,14 +24,14 @@ import org.jetbrains.annotations.Nullable;
  * Definition of value provider to use as default.
  */
 @SuppressWarnings("PublicInnerClass")
-public class DefaultValueParams {
+public class DefaultValue {
     /**
      * Defines value provider as functional provider.
      *
      * @param name Name of the function to invoke to generate the value
      * @return Default value definition.
      */
-    public static DefaultValueParams functionCall(String name) {
+    public static DefaultValue functionCall(String name) {
         return new FunctionCall(Objects.requireNonNull(name, "name"));
     }
 
@@ -41,7 +41,7 @@ public class DefaultValueParams {
      * @param value A value to use as default.
      * @return Default value definition.
      */
-    public static DefaultValueParams constant(@Nullable Object value) {
+    public static DefaultValue constant(@Nullable Object value) {
         return new ConstantValue(value);
     }
 
@@ -56,7 +56,7 @@ public class DefaultValueParams {
 
     protected final Type type;
 
-    private DefaultValueParams(Type type) {
+    private DefaultValue(Type type) {
         this.type = type;
     }
 
@@ -66,7 +66,7 @@ public class DefaultValueParams {
     }
 
     /** Defines default value provider as a function call. */
-    public static class FunctionCall extends DefaultValueParams {
+    public static class FunctionCall extends DefaultValue {
         private final String functionName;
 
         private FunctionCall(String functionName) {
@@ -81,7 +81,7 @@ public class DefaultValueParams {
     }
 
     /** Defines default value provider as a constant. */
-    public static class ConstantValue extends DefaultValueParams {
+    public static class ConstantValue extends DefaultValue {
         private final Object value;
 
         private ConstantValue(Object value) {

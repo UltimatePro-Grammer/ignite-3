@@ -64,11 +64,11 @@ public class SchemaDescriptor extends ObjectDescriptor {
         return version;
     }
 
-    TableDescriptor[] tables() {
+    public TableDescriptor[] tables() {
         return tables;
     }
 
-    IndexDescriptor[] indexes() {
+    public IndexDescriptor[] indexes() {
         return indexes;
     }
 

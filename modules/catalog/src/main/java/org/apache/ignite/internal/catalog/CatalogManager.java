@@ -18,16 +18,12 @@
 package org.apache.ignite.internal.catalog;
 
 import java.util.concurrent.CompletableFuture;
-import org.apache.ignite.internal.catalog.commands.CreateTableParams;
+import org.apache.ignite.internal.catalog.commands.CreateTableCommandParams;
 
 /**
  * Catalog manager provides schema manipulation methods is responsible for managing distributed operations.
  */
 public interface CatalogManager {
-    //TODO: IGNITE-18535 Remove when all versioned schema stuff will be moved to Catalog.
-    @Deprecated(forRemoval = true)
-    boolean USE_CATALOG = Boolean.getBoolean("IGNITE_USE_CATALOG");
-
     //TODO: IGNITE-18535 enrich with schema manipulation methods.
-    CompletableFuture<?> createTable(CreateTableParams command);
+    CompletableFuture<?> createTable(CreateTableCommandParams command);
 }

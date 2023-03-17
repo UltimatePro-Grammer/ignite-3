@@ -33,8 +33,6 @@ import org.apache.ignite.internal.tostring.S;
  * Catalog descriptor represents database schema snapshot.
  */
 public class CatalogDescriptor implements Serializable {
-    public static final String DEFAULT_SCHEMA_NAME = "PUBLIC";
-
     private static final long serialVersionUID = -2713639412596667759L;
 
     private final int version;
@@ -53,7 +51,7 @@ public class CatalogDescriptor implements Serializable {
      * @param activationTimestamp Catalog activation timestamp.
      * @param descriptors Schema descriptors.
      */
-    public CatalogDescriptor(int version, long activationTimestamp, SchemaDescriptor[] descriptors) {
+    public CatalogDescriptor(int version, long activationTimestamp, SchemaDescriptor... descriptors) {
         this.version = version;
         this.activationTimestamp = activationTimestamp;
 
