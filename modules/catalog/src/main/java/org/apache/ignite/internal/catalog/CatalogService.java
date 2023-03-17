@@ -30,8 +30,6 @@ import org.apache.ignite.internal.catalog.descriptors.TableDescriptor;
  * queries purposes and for lazy data evolution purposes.
  *
  * <p>TBD: events
- *
- * @see org.apache.ignite.internal.catalog.events.CatalogEvent
  */
 public interface CatalogService {
     String PUBLIC = "PUBLIC";

@@ -30,9 +30,6 @@ import org.apache.ignite.internal.catalog.descriptors.CatalogDescriptor;
 import org.apache.ignite.internal.catalog.descriptors.IndexDescriptor;
 import org.apache.ignite.internal.catalog.descriptors.SchemaDescriptor;
 import org.apache.ignite.internal.catalog.descriptors.TableDescriptor;
-import org.apache.ignite.internal.catalog.events.CatalogEvent;
-import org.apache.ignite.internal.catalog.events.CatalogEventParameters;
-import org.apache.ignite.internal.manager.Producer;
 import org.apache.ignite.internal.metastorage.MetaStorageManager;
 import org.apache.ignite.internal.metastorage.WatchEvent;
 import org.apache.ignite.internal.metastorage.WatchListener;
@@ -44,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Catalog service implementation.
  */
-public class CatalogServiceImpl extends Producer<CatalogEvent, CatalogEventParameters> implements CatalogService, CatalogManager {
+public class CatalogServiceImpl implements CatalogService, CatalogManager {
     private static final AtomicInteger TABLE_ID_GEN = new AtomicInteger();
 
     /** Versioned catalog descriptors. */
