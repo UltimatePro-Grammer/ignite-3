@@ -1515,8 +1515,17 @@ public class IgniteToStringBuilder {
         int cnt = 0;
         boolean needHandleOverflow = true;
 
-        Iterator<Map.Entry<K, V>> iter = map.entrySet().iterator();
         int mapSize = map.size();
+
+        Iterator<Map.Entry<K, V>> iter;
+        try {
+            iter = map.entrySet().iterator();
+        } catch (ConcurrentModificationException e) {
+            handleConcurrentModification(buf, cnt, mapSize);
+
+            buf.app('}');
+            return;
+        }
 
         while (iter.hasNext()) {
             Object key;
